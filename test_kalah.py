@@ -20,3 +20,9 @@ def test_illegal_hole(game):
     assert pytest.raises(IndexError, game.play, -11)
     assert pytest.raises(IndexError, game.play, -12)
     assert pytest.raises(IndexError, game.play, 100)
+
+def test_simple_move(game):
+    game.play(0)
+    assert game.status() == (0,5,5,5,5,4,0,4,4,4,4,4,4,0)
+    game.play(7)
+    assert game.status() == (0, 5, 5, 5, 5, 4, 0, 0, 5, 5, 5, 5, 4, 0)
