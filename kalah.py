@@ -2,7 +2,7 @@ class Kalah:
     def __init__(self , holes , seedes):
         self.seedes = seedes
         self.holes = holes
-        self.kalah = [0]*(holes*2+2)
+        self.kalah = [seedes]*(holes*2+2)
         self.kalah[6] = self.kalah[13] = 0
 
 
