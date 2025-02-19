@@ -9,7 +9,8 @@ class Kalah:
     def  play(self , hole):
         if hole<0 or hole >= len(self.kalah):
             raise IndexError
-        # if self.seedes == 0 raise Value erir
+        if self.kalah[hole] == 0:
+            raise ValueError
         seeds = self.kalah[hole]
         self.kalah[hole] = 0
         for i in range(seeds):
