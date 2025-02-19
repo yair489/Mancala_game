@@ -10,6 +10,10 @@ class Kalah:
         if hole<0 or hole > 11:
             raise IndexError
         # if self.seedes == 0 raise Value erir
+        seeds = self.kalah[hole]
+        self.kalah[hole] = 0
+        for i in range(seeds):
+            self.kalah[hole+1+i] += 1
         return "Tie"
 
     def status(self):
