@@ -38,3 +38,22 @@ def test_Two_simple_moves(game):
     assert game.status() == (0,5,5,5,5,4,0,4,4,4,4,4,4,0)
     game.play(7)
     assert game.status() == (0, 5, 5, 5, 5, 4, 0, 0, 5, 5, 5, 5, 4, 0)
+
+def test_player_crosses(game):
+    '''
+    "1.2 Player 2 crosses":
+    play
+    player 1 simple ->
+    player 2 simple ->
+    player 1crosses ->
+    player 2 crosses,
+    with some moves crossing.
+    '''
+    game.play(0)
+    assert game.status() == (0,5,5,5,5,4,0,4,4,4,4,4,4,0)
+    game.play(7)
+    assert game.status() == (0, 5, 5, 5, 5, 4, 0, 0, 5, 5, 5, 5, 4, 0)
+    game.play(3)
+    assert game.status() == (0, 5, 5, 0, 6, 5, 1, 1, 6, 5, 5, 5, 4, 0)
+    game.play(12)
+    assert game.status() == (1, 6, 6, 0, 6, 5, 1, 1, 6, 5, 5, 5, 0, 1)
