@@ -7,13 +7,14 @@ class Kalah:
 
 
     def  play(self , hole):
-        if hole<0 or hole > 11:
+        if hole<0 or hole >= len(self.kalah):
             raise IndexError
         # if self.seedes == 0 raise Value erir
         seeds = self.kalah[hole]
         self.kalah[hole] = 0
         for i in range(seeds):
-            self.kalah[hole+1+i] += 1
+            curr = (hole+1+i)%len(self.kalah)
+            self.kalah[curr] += 1
         return "Tie"
 
     def status(self):
