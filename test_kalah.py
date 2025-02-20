@@ -99,17 +99,30 @@ def test_Capture_player_one():
     assert game3.status() == (0, 1, 2, 3, 4, 0, 7+1+13, 8, 9, 10 ,11, 12, 0, 13)
 
 
-# def test_Capture_player():
-#     '''
-#      "1.4 Capture player 2": Player 2 plays and captures seeds from  player 1.).
-#     '''
-#     game3 = kalah.Kalah(6, 4)
-#     game3.kalah = [0, 1, 2, 3, 4, 5, 6, 0, 8, 9, 10, 11, 12, 13, 14]
-#     game3.curr_player = 1
-#     game3.play(11)
-#     assert game3.status() == (1, 2, 3, 4, 5, 0, 7, 0, 8, 9, 10, 0, 13, 14, 22)
+def test_Capture_player():
+    '''
+     "1.4 Capture player 2": Player 2 plays and captures seeds from  player 1.).
+    '''
+    game3 = kalah.Kalah(6, 4)
+    game3.kalah = [0, 1, 2, 3, 4, 5, 6, 0, 8, 9, 10, 11, 12, 13,]
+    game3.curr_player = 1
+    game3.play(11)
+    assert game3.status() == (1, 2, 3, 4, 5, 6, 6, 1, 9, 10, 10, 0, 13, 14)
 
-
+def test_end_game():
+    '''
+    "1.5 End Game":
+    Player 1 moves last seed from his side,
+    player 2 plays (does not add any seed to player 1's side) ->
+    end game with all of player 2's seed moved to his store.
+    '''
+    game3 = kalah.Kalah(6, 4)
+    game3.kalah = [0, 1, 2, 3, 4, 8, 6, 7, 8, 9, 3, 11, 12, 36, ]
+    game3.play(1)
+    assert game3.status() == (0, 0, 3, 3, 4, 8, 6, 7, 8, 9, 3, 11, 12, 36,)
+    game3.play(10)
+    assert game3.status() == (0, 0, 3, 3, 4, 8, 6, 7, 8, 9, 0, 12, 13, 37,)
+    assert game3.done()
 
 # [
 #     13[ 12 , 11, 10 , 9 ,8 ,7]
