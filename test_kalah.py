@@ -136,6 +136,26 @@ def test_end_game_one_player():
     game5.play(5)
     assert game5.status() == (0, 0, 0, 0, 0, 0, 24, 0, 0, 0, 0, 0, 0, 24,)
     assert game5.done() == "Tie"
+
+
+def test_end_game_one_player():
+    '''
+    "1.5 Bonus then End Game"
+    Player 1 has only 1 seed in his last hole.
+    He plays this seed,
+    gets a bonus move but cannot play since
+    he does not have any more seeds in any hole. Game ends".
+    '''
+    game3 = kalah.Kalah(6, 4)
+    game3.kalah = [0, 0, 0, 0, 0, 1, 6, 0, 0, 0, 3, 11, 12, 12, ]
+    game3.play(5)
+    assert game3.done() == "player two win"
+
+    game3 = kalah.Kalah(6, 4)
+    game3.kalah = [0, 0, 0, 0, 15, 1, 12, 0, 0, 0, 0, 0, 1, 12, ]
+    game3.curr_player = 1
+    game3.play(12)
+    assert game3.done() == "player one win"
 # [
 #     13[ 12 , 11, 10 , 9 ,8 ,7]
 #       [ 0  , 1 ,  2 , 3 ,4 ,5] 6
