@@ -20,21 +20,67 @@ class Kalah:
         self.player_two_home = holes*2 + 1
         self.winner = None
 
+
+    def  play(self , hole):
+
+        self.valid_play_hole(hole)
+
+        seeds = self.kalah[hole]
+        self.kalah[hole] = 0
+        curr_hole = 0
+
+        #
+        i = 0
+        while i  < seeds:
+
+            curr_hole = (hole+1+i)%(len(self.kalah))
+            if self.others_house(curr_hole):
+                i += 1
+                seeds += 1
+                curr_hole = (hole+1+i)%(len(self.kalah))
+            self.kalah[curr_hole] += 1
+            i += 1
+
+        self.next_turn( curr_hole)
+        return "Tie"
+
+    def status(self):
+        return tuple(self.kalah)
+
+    def done(self):
+        return False if not self.winner else self.winner
+
+    def score(self):
+        return [0,0]
+
+
+
+    def others_house(self , hole):
+        if (self.curr_player == 0) and (hole == len(self.kalah)-1):
+            return True
+        if (self.curr_player ) and ( hole == self.holes ):
+            return True
+        return False
     def turn_option(self , hole):
+        seeds_side = self.seedes * self.holes
+        if (self.kalah[self.player_two_home] == seeds_side ) and (self.kalah[self.player_one_home] == seeds_side):
+            self.winner = "Tie"
+            return Turn.WIN
+
         if self.curr_player == 0 and (0<= hole <= self.holes):
-            if self.kalah[self.holes] > (self.seedes * self.holes):
+            if self.kalah[self.player_one_home] > seeds_side:
                 self.winner = "player one win"
                 return Turn.WIN
-            if hole == self.holes:
+            if hole == self.player_one_home:
                 return Turn.ANOTHR
             elif self.kalah[hole] == 1:
                 return Turn.CAPTURE
 
-        if (self.curr_player == 1) and (self.holes < hole <= ((self.holes+1)*2)):
-            if self.kalah[(len(self.kalah)-1)] > (self.seedes * self.holes):
+        if (self.curr_player == 1) and (self.player_one_home < hole <= self.player_two_home):
+            if self.kalah[self.player_two_home] > seeds_side:
                 self.winner = "player two win"
                 return Turn.WIN
-            if hole == (len(self.kalah)-1):
+            if hole == (self.player_two_home):
                 return Turn.ANOTHR
             elif self.kalah[hole] == 1:
                 return Turn.CAPTURE
@@ -78,41 +124,3 @@ class Kalah:
         if self.kalah[hole] == 0:
             raise ValueError
         return True
-    def  play(self , hole):
-
-        self.valid_play_hole(hole)
-
-        seeds = self.kalah[hole]
-        self.kalah[hole] = 0
-        curr_hole = 0
-
-        #
-        i = 0
-        while i  < seeds:
-
-            curr_hole = (hole+1+i)%(len(self.kalah))
-            if self.others_house(curr_hole):
-                i += 1
-                seeds += 1
-                curr_hole = (hole+1+i)%(len(self.kalah))
-            self.kalah[curr_hole] += 1
-            i += 1
-
-        self.next_turn( curr_hole)
-        return "Tie"
-
-    def status(self):
-        return tuple(self.kalah)
-
-    def done(self):
-        return False if not self.winner else self.winner
-
-    def score(self):
-        return [0,0]
-
-    def others_house(self , hole):
-        if (self.curr_player == 0) and (hole == len(self.kalah)-1):
-            return True
-        if (self.curr_player ) and ( hole == self.holes ):
-            return True
-        return False
