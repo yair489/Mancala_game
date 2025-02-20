@@ -88,3 +88,19 @@ def test_bonus_move_store_one(game):
     assert game.status() == (0, 5, 1, 6, 6, 5, 1, 4, 4, 0, 5, 5, 5, 1)
     game.play(8)
     assert game.status() == (0, 5, 1, 6, 6, 5, 1, 4, 0, 1, 6, 6, 6, 1)
+
+
+def test_Capture_player():
+    '''
+     .4 Capture player 1": Player 1 plays and captures seeds from  player 2.
+    '''
+    game3 = kalah.Kalah(6, 4)
+    game3.kalah = [0, 1, 2, 3, 4, 5, 6, 0, 8, 9, 10, 11, 12, 13, 14]
+    game3.curr_player = 1
+    game3.play(11)
+    assert game3.status() == (1, 2, 3, 4, 5, 0, 7, 0, 8, 9, 10, 0, 13, 14, 22)
+
+# [
+#     13[ 12 , 11, 10 , 9 ,8 ,7]
+#       [ 0  , 1 ,  2 , 3 ,4 ,5] 6
+# ]
