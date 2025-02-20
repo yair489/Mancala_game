@@ -71,6 +71,9 @@ class Kalah:
             if self.kalah[self.player_one_home] > seeds_side:
                 self.winner = "player one win"
                 return Turn.WIN
+            if sum(self.kalah[ : self.player_one_home]) == 0:
+                self.winner = "player two win"
+                return Turn.WIN
             if hole == self.player_one_home:
                 return Turn.ANOTHR
             elif self.kalah[hole] == 1:
@@ -79,6 +82,9 @@ class Kalah:
         if (self.curr_player == 1) and (self.player_one_home < hole <= self.player_two_home):
             if self.kalah[self.player_two_home] > seeds_side:
                 self.winner = "player two win"
+                return Turn.WIN
+            if sum(self.kalah[ self.player_one_home+1 :self.player_two_home]) == 0:
+                self.winner = "player one win"
                 return Turn.WIN
             if hole == (self.player_two_home):
                 return Turn.ANOTHR
