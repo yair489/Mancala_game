@@ -4,6 +4,7 @@ class Turn(Enum):
     ANOTHR = "another next"
     NEXT = "next player turn"
     CAPTURE = "Capture"
+    WIN ="win player"
 
 
 
@@ -17,15 +18,22 @@ class Kalah:
         self.kalah[6] = self.kalah[13] = 0
         self.player_one_home = holes
         self.player_two_home = holes*2 + 1
+        self.winner = None
 
     def turn_option(self , hole):
         if self.curr_player == 0 and (0<= hole <= self.holes):
+            if self.kalah[self.holes] > (self.seedes * self.holes):
+                self.winner = "player one win"
+                return Turn.WIN
             if hole == self.holes:
                 return Turn.ANOTHR
             elif self.kalah[hole] == 1:
                 return Turn.CAPTURE
 
         if (self.curr_player == 1) and (self.holes < hole <= ((self.holes+1)*2)):
+            if self.kalah[(len(self.kalah)-1)] > (self.seedes * self.holes):
+                self.winner = "player two win"
+                return Turn.WIN
             if hole == (len(self.kalah)-1):
                 return Turn.ANOTHR
             elif self.kalah[hole] == 1:
@@ -37,17 +45,22 @@ class Kalah:
         res = self.turn_option(hole)
         if res == Turn.NEXT:
             self.curr_player = (self.curr_player + 1) % 2
-        if res == Turn.CAPTURE:
-            # return Turn.CAPTURE
+
+        elif res == Turn.CAPTURE:
             self.kalah[hole] = 0
+            # find thae base home
             num_holes_minus = 0 if self.curr_player == 0 else hole
+            # find the parallel hole
             hole_next_player = (self.holes*2) - num_holes_minus
             num_seeds_next_player = self.kalah[hole_next_player]
             self.kalah[hole_next_player] = 0
+
+            # add seeds to the coorect home
             if self.curr_player:
                 self.kalah[len(self.kalah)-1] += 1 + num_seeds_next_player
             else:
                 self.kalah[self.holes] += 1 + num_seeds_next_player
+
         return res
 
     # [
@@ -79,7 +92,9 @@ class Kalah:
 
             curr_hole = (hole+1+i)%(len(self.kalah))
             if self.others_house(curr_hole):
-                curr_hole = (curr_hole + 1) % len(self.kalah)
+                i += 1
+                seeds += 1
+                curr_hole = (hole+1+i)%(len(self.kalah))
             self.kalah[curr_hole] += 1
             i += 1
 
@@ -90,7 +105,7 @@ class Kalah:
         return tuple(self.kalah)
 
     def done(self):
-        return True
+        return False if not self.winner else self.winner
 
     def score(self):
         return [0,0]
