@@ -76,9 +76,9 @@ def test_empty_hole(game):
     assert game.status() == (0, 5, 5, 5, 5, 4, 0, 0, 5, 5, 5, 5, 4, 0)
     assert pytest.raises(ValueError ,  game.play , 0)
 
-def test_bonus_move_store(game):
+def test_bonus_move_store_one(game):
     '''
-    "1.3 Bonus Move player 1": Player 1 plays dropping last seed in store and gets another turn.
+        "1.3 Bonus Move player 1": Player 1 plays dropping last seed in store and gets another turn.
     '''
     game.play(2)
     assert game.status() == (4, 4, 0, 5, 5, 5, 1, 4, 4, 4, 4, 4, 4, 0)
