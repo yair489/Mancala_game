@@ -109,7 +109,7 @@ def test_Capture_player():
     game3.play(11)
     assert game3.status() == (1, 2, 3, 4, 5, 6, 6, 1, 9, 10, 10, 0, 13, 14)
 
-def test_end_game():
+def test_end_game_one_player():
     '''
     "1.5 End Game":
     Player 1 moves last seed from his side,
@@ -122,8 +122,20 @@ def test_end_game():
     assert game3.status() == (0, 0, 3, 3, 4, 8, 6, 7, 8, 9, 3, 11, 12, 36,)
     game3.play(10)
     assert game3.status() == (0, 0, 3, 3, 4, 8, 6, 7, 8, 9, 0, 12, 13, 37,)
-    assert game3.done()
+    assert game3.done() == "player two win"
 
+    game4 = kalah.Kalah(6, 4)
+    game4.kalah = [0, 1, 2, 3, 2, 8, 36, 7, 8, 9, 3, 11, 12, 13, ]
+    game4.play(4)
+    assert game4.status() == (0, 1, 2, 3, 0, 9, 37, 7, 8, 9, 3, 11, 12, 13,)
+    assert game4.done() == "player one win"
+
+    game5 = kalah.Kalah(6, 4)
+    game5.kalah = [0, 0, 0, 0, 0, 1, 23, 0, 0, 0, 0, 0, 0, 24, ]
+    assert game5.done() == False
+    game5.play(5)
+    assert game5.status() == (0, 0, 0, 0, 0, 0, 24, 0, 0, 0, 0, 0, 0, 24,)
+    assert game5.done() == "Tie"
 # [
 #     13[ 12 , 11, 10 , 9 ,8 ,7]
 #       [ 0  , 1 ,  2 , 3 ,4 ,5] 6
