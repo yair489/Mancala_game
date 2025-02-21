@@ -156,6 +156,14 @@ def test_end_game_one_player():
     game3.curr_player = 1
     game3.play(12)
     assert game3.done() == "player one win"
+
+def test_kalah_reper():
+    assert repr(kalah.Kalah(6, 4)) ==  "Kalah(4, 6, status=(4, 4, 4, 4, 4, 4, 0, 4, 4, 4, 4, 4, 4, 0), player=0)"
+    assert repr(kalah.Kalah(6, 6)) == "Kalah(6, 6, status=(6, 6, 6, 6, 6, 6, 0, 6, 6, 6, 6, 6, 6, 0), player=0)"
+
+def test_end_game_one_player():
+    game3 = kalah.Kalah(6, 4)
+    print(game3.__str__())
 # [
 #     13[ 12 , 11, 10 , 9 ,8 ,7]
 #       [ 0  , 1 ,  2 , 3 ,4 ,5] 6
