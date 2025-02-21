@@ -1,4 +1,5 @@
 from enum import Enum
+import streamlit as st
 
 class Turn(Enum):
     ANOTHR = "another next"
@@ -51,9 +52,23 @@ class Kalah:
         return False if not self.winner else self.winner
 
     def score(self):
-        return [0,0]
+        return [self.kalah[self.player_one_home], self.kalah[self.player_two_home]]
 
 
+    def __repr__(self):
+        return f"Kalah({self.seedes}, {self.holes}, status={self.status()}, player={self.curr_player})"
+
+    def render(self):
+        """Return a text representation of the board."""
+        p1_store = self.kalah[self.player_one_home]
+        p2_store = self.kalah[self.player_two_home]
+        p1_side = self.kalah[:self.holes]
+        p2_side = self.kalah[self.holes + 1:self.player_two_home]
+
+        board_str = f"P2 Store: {p2_store}\n"
+        board_str += "\nP2: " + " | ".join(map(str, reversed(p2_side))) + "\n"
+        board_str += "\nP1: " + " | ".join(map(str, p1_side)) + f"\nP1 Store: {p1_store}"
+        return board_str
 
     def others_house(self , hole):
         if (self.curr_player == 0) and (hole == len(self.kalah)-1):
@@ -95,23 +110,22 @@ class Kalah:
 
     def next_turn(self ,  hole):
         res = self.turn_option(hole)
-        if res == Turn.NEXT:
-            self.curr_player = (self.curr_player + 1) % 2
+        if res == Turn.ANOTHR:
+            return res
+        elif res == Turn.WIN:
+            return res
 
         elif res == Turn.CAPTURE:
             self.kalah[hole] = 0
-            # find thae base home
-            num_holes_minus = 0 if self.curr_player == 0 else hole
-            # find the parallel hole
-            hole_next_player = (self.holes*2) - num_holes_minus
-            num_seeds_next_player = self.kalah[hole_next_player]
-            self.kalah[hole_next_player] = 0
 
-            # add seeds to the coorect home
-            if self.curr_player:
-                self.kalah[len(self.kalah)-1] += 1 + num_seeds_next_player
+            if self.curr_player == 1:
+                self.kalah[len(self.kalah)-1] += 1 + self.kalah[len(self.kalah) - 2 -hole]
             else:
-                self.kalah[self.holes] += 1 + num_seeds_next_player
+                self.kalah[self.holes] += 1 + self.kalah[len(self.kalah) - 2 -hole]
+            self.kalah[len(self.kalah) - 2 - hole] =0
+
+        self.curr_player = (self.curr_player + 1) % 2
+
 
         return res
 
@@ -130,3 +144,4 @@ class Kalah:
         if self.kalah[hole] == 0:
             raise ValueError
         return True
+
