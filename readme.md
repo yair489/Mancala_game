@@ -23,7 +23,10 @@ To install `pytest`, `streamlit` run:
     pip install --upgrade pytest
     pip install streamlit
     
-## Running Tests
+## Running 
+To run with streamlit:
+
+    streamlit run app.py
 
 To run all test use:
 
